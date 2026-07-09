@@ -32,6 +32,7 @@ fn fruit_basket(basket: &mut HashMap<Fruit, u32>) {
         // TODO: Insert new fruits if they are not already present in the
         // basket. Note that you are not allowed to put any type of fruit that's
         // already present!
+        basket.entry(fruit).or_insert(1);
     }
 }
 
@@ -88,6 +89,7 @@ mod tests {
         fruit_basket(&mut basket);
 
         for fruit_kind in fruit_kinds {
+            
             let Some(amount) = basket.get(&fruit_kind) else {
                 panic!("Fruit kind {fruit_kind:?} was not found in basket");
             };

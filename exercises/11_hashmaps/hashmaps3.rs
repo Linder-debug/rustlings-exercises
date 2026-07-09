@@ -20,17 +20,21 @@ fn build_scores_table(results: &str) -> HashMap<&str, TeamScores> {
     let mut scores = HashMap::<&str, TeamScores>::new();
 
     for line in results.lines() {
-        let mut split_iterator = line.split(',');
-        // NOTE: We use `unwrap` because we didn't deal with error handling yet.
-        let team_1_name = split_iterator.next().unwrap();
-        let team_2_name = split_iterator.next().unwrap();
-        let team_1_score: u8 = split_iterator.next().unwrap().parse().unwrap();
-        let team_2_score: u8 = split_iterator.next().unwrap().parse().unwrap();
+      let mut split_iterator = line.split(',');
+    let team_1_name = split_iterator.next().unwrap();
+    let team_2_name = split_iterator.next().unwrap();
+    let team_1_score: u8 = split_iterator.next().unwrap().parse().unwrap();
+    let team_2_score: u8 = split_iterator.next().unwrap().parse().unwrap();
 
-        // TODO: Populate the scores table with the extracted details.
-        // Keep in mind that goals scored by team 1 will be the number of goals
-        // conceded by team 2. Similarly, goals scored by team 2 will be the
-        // number of goals conceded by team 1.
+    // Actualizar equipo 1
+    let team1 = scores.entry(team_1_name).or_default();
+    team1.goals_scored += team_1_score;
+    team1.goals_conceded += team_2_score;
+
+    // Actualizar equipo 2
+    let team2 = scores.entry(team_2_name).or_default();
+    team2.goals_scored += team_2_score;
+    team2.goals_conceded += team_1_score;
     }
 
     scores
